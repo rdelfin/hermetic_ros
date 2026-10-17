@@ -4,18 +4,31 @@ module(
 )
 
 bazel_dep(name = "llvm", version = "0.8.24")
+bazel_dep(name = "platforms", version = "1.1.0")
 bazel_dep(name = "rules_cc", version = "0.2.26")
-bazel_dep(name = "rules_python", version = "2.4.2")
-bazel_dep(name = "rules_rust", version = "0.74.0")
+bazel_dep(name = "googletest", version = "1.18.0.bcr.1")
+bazel_dep(name = "aspect_rules_py", version = "2.0.0-alpha.8")
 
 register_toolchains("@llvm//toolchain:all")
 
-python = use_extension("@rules_python//python/extensions:python.bzl", "python")
-python.toolchain(
-    is_default = True,
-    # You must pin the Python version to the one used for rules_ros2_pip_deps_numpy_headers and current_py_cc_headers in rules_ros2.
-    # Otherwise you will get errors at analysis time like:
-    #     configurable attribute "actual" in @@rules_python~~pip~rules_ros2_pip_deps//numpy:_no_matching_repository doesn't match this configuration: No matching wheel for current configuration's Python version.
-    #     The current build configuration's Python version doesn't match any of the Python wheels available for this distribution.
-    python_version = "3.12",
+interpreters = use_extension("@aspect_rules_py//py:extensions.bzl", "python_interpreters")
+interpreters.toolchain(python_version = "3.12")
+use_repo(interpreters, "python_interpreters")
+
+register_toolchains("@python_interpreters//:all")
+
+uv_bin = use_extension("@aspect_rules_py//uv:extensions.bzl", "uv_bin")
+uv_bin.toolchain(version = "0.11.21")
+use_repo(uv_bin, "uv")
+
+uv = use_extension("@aspect_rules_py//uv:extensions.bzl", "uv")
+uv.declare_hub(hub_name = "pypi")
+uv.project(
+    hub_name = "pypi",
+    lock = "//:uv.lock",
+    pyproject = "//:pyproject.toml",
 )
+use_repo(uv, "pypi")
+
+ros2_repositories = use_extension("//ros2:ros2_repositories.bzl", "ros2_repositories")
+use_repo(ros2_repositories, "rcutils")

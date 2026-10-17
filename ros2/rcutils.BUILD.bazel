@@ -1,0 +1,35 @@
+load("@rules_cc//cc:cc_library.bzl", "cc_library")
+load("@rules_cc//cc:cc_test.bzl", "cc_test")
+load("@//tools:em.bzl", "em_expand")
+
+em_expand(
+    name = "logging_macros",
+    src = "resource/logging_macros.h.em",
+    out = "include/rcutils/logging_macros.h",
+    data = glob(["rcutils/**/*.py"]),
+    defines = {"rcutils_module_path": "$(PACKAGE_DIR)"}
+)
+
+cc_library(
+    name = "rcutils",
+    cxxopts = ["--std=c++17"],
+    local_defines = select({
+        "@platforms//os:linux": ["_GNU_SOURCE"],
+        "//conditions:default": [],
+    }),
+    srcs = glob(
+        ["src/**/*.c", "src/**/*.h"],
+        exclude = ["src/time_unix.c", "src/time_win32.c"]
+    ) + select({
+        "@platforms//os:linux": ["src/time_unix.c"],
+        "@platforms//os:windows": ["src/time_win32.c"],
+    }),
+    hdrs = glob(
+        ["include/**/*.h"],
+        exclude=["include/rcutils/stdatomic_helper/**/*"],
+    ) + [":logging_macros"] + select({
+        "@platforms//os:linux": ["include/rcutils/stdatomic_helper/gcc/stdatomic.h"],
+        "@platforms//os:windows": ["include/rcutils/stdatomic_helper/win32/stdatomic.h"],
+    }),
+    includes = ["include"],
+)

@@ -1,0 +1,9 @@
+[project]
+name = "hermetic_ros"
+version = "1.0.0"
+requires-python = ">=3.12"
+dependencies = ["empy>=3.3.4,<4"]
+
+[dependency-groups]
+hermetic_ros = ["hermetic_ros", { include-group = "build-tools" }]
+build-tools = ["build", "setuptools", "wheel"]

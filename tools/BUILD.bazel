@@ -1,0 +1,7 @@
+load("@aspect_rules_py//uv:defs.bzl", "py_entrypoint_binary")
+
+py_entrypoint_binary(
+    name = "em",
+    entrypoint = "em:main",
+    pkg = "@pypi//empy",
+)

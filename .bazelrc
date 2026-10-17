@@ -1,3 +1,6 @@
+common --@aspect_rules_py//py:python_version=3.12
+common --@pypi//dep_group=hermetic_ros
+
 build --bes_results_url=https://app.buildbuddy.io/invocation/
 build --bes_backend=grpcs://remote.buildbuddy.io
 common --remote_cache=grpcs://remote.buildbuddy.io
