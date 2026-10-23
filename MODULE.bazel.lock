@@ -262,7 +262,7 @@
   "moduleExtensions": {
     "//ros2:ros2_repositories.bzl%ros2_repositories": {
       "general": {
-        "bzlTransitiveDigest": "EBDwcF5BkIZ3E8GwuOAMgLuZ6rq6/wjOZpbEfZ6FBlA=",
+        "bzlTransitiveDigest": "mbsn+SqKGWFBdLjppMinnZQzEoOfF3ZLS11P34s/7EU=",
         "usagesDigest": "r/8XmpJ71yJMa0Cq2HhS4mqf45QhuoGsoLisWjf2O8c=",
         "recordedInputs": [
           "REPO_MAPPING:,bazel_tools bazel_tools"
@@ -275,22 +275,6 @@
               "strip_prefix": "rcutils-6.7.6",
               "url": "https://github.com/ros2/rcutils/archive/refs/tags/6.7.6.tar.gz",
               "integrity": "sha256-T6ueMQwpmah1H+fk4D1co41DCLrAvjLnBf8KZZZeHkI="
-            }
-          },
-          "rmw": {
-            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_archive",
-            "attributes": {
-              "build_file": "@@//ros2:rmw.BUILD.bazel",
-              "strip_prefix": "rmw-7.3.4",
-              "url": "https://github.com/ros2/rmw/archive/refs/tags/7.3.4.tar.gz"
-            }
-          },
-          "rmw_zenoh": {
-            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_archive",
-            "attributes": {
-              "build_file": "@@//ros2:rmw_zenoh.BUILD.bazel",
-              "strip_prefix": "rmw_zenoh-0.2.12",
-              "url": "https://github.com/ros2/rmw_zenoh/archive/refs/tags/0.2.12.tar.gz"
             }
           }
         }

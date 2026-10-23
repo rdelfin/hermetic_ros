@@ -13,6 +13,7 @@ em_expand(
 cc_library(
     name = "rcutils",
     cxxopts = ["--std=c++17"],
+    visibility = ["//visibility:public"],
     local_defines = select({
         "@platforms//os:linux": ["_GNU_SOURCE"],
         "//conditions:default": [],
