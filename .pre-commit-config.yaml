@@ -1,0 +1,11 @@
+default_language_version:
+  ruby: 3.2.3
+
+repos:
+  - repo: local
+    hooks:
+      - id: aspect_rules_lint
+        name: Format
+        language: system
+        entry: bazel run //:format
+        files: .*
