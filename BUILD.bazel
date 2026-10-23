@@ -1,4 +1,8 @@
-exports_files(["pyproject.toml", "uv.lock"])
+exports_files([
+    "pyproject.toml",
+    "uv.lock",
+    "MODULE.bazel",
+])
 
 alias(
     name = "format",
