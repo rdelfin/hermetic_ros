@@ -1,0 +1,37 @@
+load("@rules_cc//cc:cc_library.bzl", "cc_library")
+load("@rules_cc//cc:cc_test.bzl", "cc_test")
+
+cc_library(
+    name = "rosidl_buffer",
+    cxxopts = ["--std=c++17"],
+    visibility = ["//visibility:public"],
+    srcs = glob(["rosidl_buffer/src/**/*.cpp"]),
+    hdrs = glob([
+        "rosidl_buffer/include/**/*.h",
+        "rosidl_buffer/include/**/*.hpp",
+    ]),
+    includes = ["rosidl_buffer/include"],
+)
+
+cc_library(
+    name = "rosidl_typesupport_interface",
+    cxxopts = ["--std=c++17"],
+    visibility = ["//visibility:public"],
+    hdrs = ["rosidl_typesupport_interface/include/rosidl_typesupport_interface/macros.h"],
+    includes = ["rosidl_typesupport_interface/include"],
+)
+
+
+cc_library(
+    name = "rosidl_runtime_c",
+    cxxopts = ["--std=c++17"],
+    visibility = ["//visibility:public"],
+    srcs = glob(["rosidl_runtime_c/src/**/*.c"]),
+    hdrs = glob(["rosidl_runtime_c/include/**/*.h"]),
+    includes = ["rosidl_runtime_c/include"],
+    deps = [
+        ":rosidl_buffer",
+        ":rosidl_typesupport_interface",
+        "@rcutils",
+    ],
+)
