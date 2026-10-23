@@ -1,0 +1,14 @@
+load("@rules_cc//cc:cc_library.bzl", "cc_library")
+
+cc_library(
+    name = "rosidl_dynamic_typesupport",
+    cxxopts = ["--std=c++17"],
+    visibility = ["//visibility:public"],
+    srcs = glob(["src/**/*.c"]),
+    hdrs = glob(["include/**/*.h"]),
+    includes = ["include"],
+    deps = [
+        "@rcutils",
+        "@rosidl//:rosidl_runtime_c",
+    ],
+)

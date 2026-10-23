@@ -19,4 +19,12 @@ def _ros2_repositories_impl(_module_ctx):
         integrity = "sha256-Zqiikhah2ac2gS9s3Tx4682TZejGdX14eSyz+RgpO3s=",
     )
 
+    http_archive(
+        name = "rosidl_dynamic_typesupport",
+        build_file = "//ros2:rosidl_dynamic_typesupport.BUILD.bazel",
+        strip_prefix = "rosidl_dynamic_typesupport-0.4.1",
+        url = "https://github.com/ros2/rosidl_dynamic_typesupport/archive/refs/tags/0.4.1.tar.gz",
+        integrity = "sha256-HbnqjkivrT6F+kA/AySFpnIWmShsdHM3NsIjv6rHa6I=",
+    )
+
 ros2_repositories = module_extension(implementation = _ros2_repositories_impl)

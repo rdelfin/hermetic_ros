@@ -31,4 +31,4 @@ uv.project(
 use_repo(uv, "pypi")
 
 ros2_repositories = use_extension("//ros2:ros2_repositories.bzl", "ros2_repositories")
-use_repo(ros2_repositories, "rcutils", "rosidl")
+use_repo(ros2_repositories, "rcutils", "rosidl", "rosidl_dynamic_typesupport")

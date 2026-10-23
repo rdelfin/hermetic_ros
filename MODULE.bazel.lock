@@ -262,7 +262,7 @@
   "moduleExtensions": {
     "//ros2:ros2_repositories.bzl%ros2_repositories": {
       "general": {
-        "bzlTransitiveDigest": "EikL3Q6sH2jqFAcNDAlsBOVUbPMfC8gUehFxS0So5y8=",
+        "bzlTransitiveDigest": "kcKWj0dQTsReJBPKDb5j3nBU/aNs5psTiAOQoEMXqSA=",
         "usagesDigest": "r/8XmpJ71yJMa0Cq2HhS4mqf45QhuoGsoLisWjf2O8c=",
         "recordedInputs": [
           "REPO_MAPPING:,bazel_tools bazel_tools"
@@ -284,6 +284,15 @@
               "strip_prefix": "rosidl-5.2.1",
               "url": "https://github.com/ros2/rosidl/archive/refs/tags/5.2.1.tar.gz",
               "integrity": "sha256-Zqiikhah2ac2gS9s3Tx4682TZejGdX14eSyz+RgpO3s="
+            }
+          },
+          "rosidl_dynamic_typesupport": {
+            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_archive",
+            "attributes": {
+              "build_file": "@@//ros2:rosidl_dynamic_typesupport.BUILD.bazel",
+              "strip_prefix": "rosidl_dynamic_typesupport-0.4.1",
+              "url": "https://github.com/ros2/rosidl_dynamic_typesupport/archive/refs/tags/0.4.1.tar.gz",
+              "integrity": "sha256-HbnqjkivrT6F+kA/AySFpnIWmShsdHM3NsIjv6rHa6I="
             }
           }
         }
