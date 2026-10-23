@@ -27,4 +27,12 @@ def _ros2_repositories_impl(_module_ctx):
         integrity = "sha256-HbnqjkivrT6F+kA/AySFpnIWmShsdHM3NsIjv6rHa6I=",
     )
 
+    http_archive(
+        name = "rmw",
+        build_file = "//ros2:rmw.BUILD.bazel",
+        strip_prefix = "rmw-7.10.2",
+        url = "https://github.com/ros2/rmw/archive/refs/tags/7.10.2.tar.gz",
+        integrity = "sha256-MqaRCehFJpnOoJfP+r8cpALOQEKmIYITylT9rN61S7E=",
+    )
+
 ros2_repositories = module_extension(implementation = _ros2_repositories_impl)
