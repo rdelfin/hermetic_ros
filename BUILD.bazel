@@ -2,6 +2,7 @@ exports_files([
     "pyproject.toml",
     "uv.lock",
     "MODULE.bazel",
+    ".pre-commit-config.yaml",
 ])
 
 alias(
