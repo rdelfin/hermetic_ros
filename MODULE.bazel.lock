@@ -140,6 +140,8 @@
     "https://bcr.bazel.build/modules/libxml2/2.15.3/source.json": "fd7c420cb14981416c9fadd0db555bd1e249355e0e5b63b2ce15b92996b5fbfb",
     "https://bcr.bazel.build/modules/llvm/0.8.24/MODULE.bazel": "e03e030b1d0b44bb05c52665c2f43de9260af9152f666262e11e25f6c072aae3",
     "https://bcr.bazel.build/modules/llvm/0.8.24/source.json": "924ed48858c1c081698f1992c7b489434375de901c47b7046e203459840cb544",
+    "https://bcr.bazel.build/modules/lttng-ust/2.14.0/MODULE.bazel": "3b563cf85b3e96b4508461763f1a0a1dcb89f785c03af4ae56c8ea72d0bb66d5",
+    "https://bcr.bazel.build/modules/lttng-ust/2.14.0/source.json": "7ea03641c03906397e3482f7189e4f6371c5b260f9d4da58b039b7b8e12ec129",
     "https://bcr.bazel.build/modules/nlohmann_json/3.6.1/MODULE.bazel": "6f7b417dcc794d9add9e556673ad25cb3ba835224290f4f848f8e2db1e1fca74",
     "https://bcr.bazel.build/modules/nlohmann_json/3.6.1/source.json": "f448c6e8963fdfa7eb831457df83ad63d3d6355018f6574fb017e8169deb43a9",
     "https://bcr.bazel.build/modules/package_metadata/0.0.2/MODULE.bazel": "fb8d25550742674d63d7b250063d4580ca530499f045d70748b1b142081ebb92",
@@ -337,6 +339,8 @@
     "https://bcr.bazel.build/modules/tar.bzl/0.5.1/MODULE.bazel": "7c2eb3dcfc53b0f3d6f9acdfd911ca803eaf92aadf54f8ca6e4c1f3aee288351",
     "https://bcr.bazel.build/modules/upb/0.0.0-20220923-a547704/MODULE.bazel": "7298990c00040a0e2f121f6c32544bab27d4452f80d9ce51349b1a28f3005c43",
     "https://bcr.bazel.build/modules/upb/0.0.0-20230516-61a97ef/MODULE.bazel": "c0df5e35ad55e264160417fd0875932ee3c9dda63d9fccace35ac62f45e1b6f9",
+    "https://bcr.bazel.build/modules/userspace_rcu/0.15.4/MODULE.bazel": "430f93e2e6e315ccd51c81cc78a86873b63ed2b3a8dcf94ee8a2e69834d16600",
+    "https://bcr.bazel.build/modules/userspace_rcu/0.15.4/source.json": "ba9dab315f26c97d4bf81db6b73ee209c46edad1e49e49867a6c9cab10951cea",
     "https://bcr.bazel.build/modules/windows_support/0.4.1/MODULE.bazel": "2287f95ac65c48ea05197f626a9b5711ea3c88cea61f2a5782882bdd55fdeb51",
     "https://bcr.bazel.build/modules/windows_support/0.4.1/source.json": "bdb72e6717b00135e0a4a8512b3f6b626df0baea0bde74bf7312c7484f791287",
     "https://bcr.bazel.build/modules/with_cfg.bzl/0.12.0/MODULE.bazel": "b573395fe63aef4299ba095173e2f62ccfee5ad9bbf7acaa95dba73af9fc2b38",
@@ -357,7 +361,7 @@
   "moduleExtensions": {
     "//ros2:ros2_repositories.bzl%ros2_repositories": {
       "general": {
-        "bzlTransitiveDigest": "Hxlp3/AsWBKj5KLuQe/B4kz5YkUKUZi8sSmYYICM0AE=",
+        "bzlTransitiveDigest": "VpTiafJPmoW8/17pucuBGfLjPHQFx/cEnr9JB17zdBo=",
         "usagesDigest": "r/8XmpJ71yJMa0Cq2HhS4mqf45QhuoGsoLisWjf2O8c=",
         "recordedInputs": [
           "REPO_MAPPING:,bazel_tools bazel_tools"
@@ -415,6 +419,14 @@
               "strip_prefix": "rosidl_typesupport_fastrtps-3.9.7",
               "url": "https://github.com/ros2/rosidl_typesupport_fastrtps/archive/refs/tags/3.9.7.tar.gz",
               "integrity": "sha256-xCe87EChM5odAbgMRmYTqmdUhkDwcP2mGULyR+YHzCc="
+            }
+          },
+          "ros2_tracing": {
+            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_archive",
+            "attributes": {
+              "build_file": "@@//ros2:ros2_tracing.BUILD.bazel",
+              "strip_prefix": "ros2_tracing-8.10.2",
+              "url": "https://github.com/ros2/ros2_tracing/archive/refs/tags/8.10.2.tar.gz"
             }
           }
         }

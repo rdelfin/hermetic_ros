@@ -51,4 +51,12 @@ def _ros2_repositories_impl(_module_ctx):
         integrity = "sha256-xCe87EChM5odAbgMRmYTqmdUhkDwcP2mGULyR+YHzCc=",
     )
 
+    http_archive(
+        name = "ros2_tracing",
+        build_file = "//ros2:ros2_tracing.BUILD.bazel",
+        strip_prefix = "ros2_tracing-8.10.2",
+        url = "https://github.com/ros2/ros2_tracing/archive/refs/tags/8.10.2.tar.gz",
+        integrity = "sha256-s7pfXqiwIUlZtWeSs/qjnXAYsPPMpqi3WTdTZ0sEEqs=",
+    )
+
 ros2_repositories = module_extension(implementation = _ros2_repositories_impl)

@@ -1,0 +1,11 @@
+load("@rules_cc//cc:cc_library.bzl", "cc_library")
+
+cc_library(
+    name = "tracetools",
+    cxxopts = ["--std=c++17"],
+    visibility = ["//visibility:public"],
+    srcs = glob(["tracetools/src/**/*.c"]),
+    hdrs = glob(["tracetools/include/**/*.h", "tracetools/include/**/*.hpp"]),
+    includes = ["tracetools/include"],
+    deps = ["@lttng-ust"],
+)
