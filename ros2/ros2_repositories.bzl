@@ -35,4 +35,20 @@ def _ros2_repositories_impl(_module_ctx):
         integrity = "sha256-MqaRCehFJpnOoJfP+r8cpALOQEKmIYITylT9rN61S7E=",
     )
 
+    http_archive(
+        name = "rcpputils",
+        build_file = "//ros2:rcpputils.BUILD.bazel",
+        strip_prefix = "rcpputils-2.14.5",
+        url = "https://github.com/ros2/rcpputils/archive/refs/tags/2.14.5.tar.gz",
+        integrity = "sha256-HDsIbb+tfOauB51lOTJNIK6+IWnIUzg/ruJi+p38Gxw=",
+    )
+
+    http_archive(
+        name = "rosidl_typesupport_fastrtps",
+        build_file = "//ros2:rosidl_typesupport_fastrtps.BUILD.bazel",
+        strip_prefix = "rosidl_typesupport_fastrtps-3.9.7",
+        url = "https://github.com/ros2/rosidl_typesupport_fastrtps/archive/refs/tags/3.9.7.tar.gz",
+        integrity = "sha256-xCe87EChM5odAbgMRmYTqmdUhkDwcP2mGULyR+YHzCc=",
+    )
+
 ros2_repositories = module_extension(implementation = _ros2_repositories_impl)

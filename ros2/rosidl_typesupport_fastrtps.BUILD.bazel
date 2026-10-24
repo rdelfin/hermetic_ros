@@ -1,0 +1,37 @@
+load("@rules_cc//cc:cc_library.bzl", "cc_library")
+
+cc_library(
+    name = "rosidl_typesupport_fastrtps_cpp",
+    cxxopts = ["--std=c++17"],
+    visibility = ["//visibility:public"],
+    srcs = glob(["rosidl_typesupport_fastrtps_cpp/src/**/*.cpp"]),
+    hdrs = glob([
+        "rosidl_typesupport_fastrtps_cpp/include/**/*.h",
+        "rosidl_typesupport_fastrtps_cpp/include/**/*.hpp",
+    ]),
+    includes = ["rosidl_typesupport_fastrtps_cpp/include"],
+    deps = [
+        "@fastcdr",
+        "@rmw",
+        "@rosidl//:rosidl_buffer_backend",
+        "@rosidl//:rosidl_runtime_c",
+        "@rosidl//:rosidl_runtime_cpp",
+    ],
+)
+
+cc_library(
+    name = "rosidl_typesupport_fastrtps_c",
+    cxxopts = ["--std=c++17"],
+    visibility = ["//visibility:public"],
+    srcs = glob(["rosidl_typesupport_fastrtps_c/src/**/*.cpp"]),
+    hdrs = glob([
+        "rosidl_typesupport_fastrtps_c/include/**/*.h",
+        "rosidl_typesupport_fastrtps_c/include/**/*.hpp",
+    ]),
+    includes = ["rosidl_typesupport_fastrtps_c/include"],
+    deps = [
+        "@fastcdr",
+        "@rosidl//:rosidl_runtime_c",
+        "@rosidl//:rosidl_runtime_cpp",
+    ],
+)

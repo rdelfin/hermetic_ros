@@ -2,6 +2,7 @@ exports_files([
     "pyproject.toml",
     "uv.lock",
     "MODULE.bazel",
+    "MODULE.bazel.lock",
     ".pre-commit-config.yaml",
 ])
 

@@ -3,6 +3,7 @@ load("@rules_cc//cc:cc_library.bzl", "cc_library")
 cc_library(
     name = "rmw",
     cxxopts = ["--std=c++17"],
+    visibility = ["//visibility:public"],
     srcs = glob(["rmw/src/**/*.c"]),
     hdrs = glob(["rmw/include/**/*.h", "rmw/include/**/*.hpp"]),
     includes = ["rmw/include"],

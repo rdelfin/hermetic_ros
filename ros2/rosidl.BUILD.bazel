@@ -21,7 +21,6 @@ cc_library(
     includes = ["rosidl_typesupport_interface/include"],
 )
 
-
 cc_library(
     name = "rosidl_runtime_c",
     cxxopts = ["--std=c++17"],
@@ -34,4 +33,29 @@ cc_library(
         ":rosidl_typesupport_interface",
         "@rcutils",
     ],
+)
+
+cc_library(
+    name = "rosidl_runtime_cpp",
+    cxxopts = ["--std=c++17"],
+    visibility = ["//visibility:public"],
+    hdrs = glob(["rosidl_runtime_cpp/include/**/*.hpp"]),
+    includes = ["rosidl_runtime_cpp/include"],
+    deps = [
+        ":rosidl_buffer",
+        ":rosidl_runtime_c",
+        "@rcutils",
+    ],
+)
+
+cc_library(
+    name = "rosidl_buffer_backend",
+    cxxopts = ["--std=c++17"],
+    visibility = ["//visibility:public"],
+    hdrs = glob([
+        "rosidl_buffer_backend/include/**/*.h",
+        "rosidl_buffer_backend/include/**/*.hpp",
+    ]),
+    includes = ["rosidl_buffer_backend/include"],
+    deps = ["@rmw"],
 )

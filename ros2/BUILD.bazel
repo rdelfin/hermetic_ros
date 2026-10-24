@@ -1,1 +1,9 @@
-exports_files(["ros2_repositories.bzl"])
+exports_files([
+    "rcpputils.BUILD.bazel",
+    "rcutils.BUILD.bazel",
+    "rmw.BUILD.bazel",
+    "ros2_repositories.bzl",
+    "rosidl.BUILD.bazel",
+    "rosidl_dynamic_typesupport.BUILD.bazel",
+    "rosidl_typesupport_fastrtps.BUILD.bazel",
+])

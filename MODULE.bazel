@@ -10,6 +10,9 @@ bazel_dep(name = "googletest", version = "1.18.0.bcr.1")
 bazel_dep(name = "aspect_rules_py", version = "2.0.0-alpha.8")
 bazel_dep(name = "aspect_rules_lint", version = "2.9.1")
 
+# Should be 2.3.6 but that's not in the BCR
+bazel_dep(name = "fastcdr", version = "2.3.5.bcr.0")
+
 bazel_dep(name = "buildifier_prebuilt", version = "10.1.0", dev_dependency = True)
 
 register_toolchains("@llvm//toolchain:all")
@@ -34,4 +37,12 @@ uv.project(
 use_repo(uv, "pypi")
 
 ros2_repositories = use_extension("//ros2:ros2_repositories.bzl", "ros2_repositories")
-use_repo(ros2_repositories, "rcutils", "rmw", "rosidl", "rosidl_dynamic_typesupport")
+use_repo(
+    ros2_repositories,
+    "rcpputils",
+    "rcutils",
+    "rmw",
+    "rosidl",
+    "rosidl_dynamic_typesupport",
+    "rosidl_typesupport_fastrtps",
+)
