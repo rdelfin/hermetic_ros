@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
-# Regenerates the checked-in opaque_types_<triple>.rs files with the upstream
-# zenoh-c build.rs. Run it from the workspace after a zenoh-c bump, a Rust
-# toolchain bump, or a change to ZENOHC_FEATURES in zenoh_c.BUILD.bazel.
+# Regenerates the checked-in opaque_types_<triple>.rs,
+# zenoh_configure_<triple>.h and zenoh_opaque_<triple>.h files with the
+# upstream zenoh-c build.rs. Run it from the workspace after a zenoh-c bump, a
+# Rust toolchain bump, or a change to ZENOHC_FEATURES in zenoh_c.BUILD.bazel.
 #
 # Needs network access, rustup, and clang.
 set -euo pipefail
@@ -34,8 +35,9 @@ export RUSTUP_TOOLCHAIN="${rust_version}"
 work_dir="$(mktemp -d)"
 trap 'rm -rf "${work_dir}"' EXIT
 
-# build.rs writes into its source tree, so it runs on a copy.
-cp -r "${external_dir}/+ros2_repositories+zenoh_c" "${work_dir}/zenoh-c"
+# build.rs writes into its source tree, so it runs on a copy. -L because the
+# external repo can be a symlink into Bazel's repo contents cache.
+cp -rL "${external_dir}/+ros2_repositories+zenoh_c" "${work_dir}/zenoh-c"
 chmod -R u+w "${work_dir}/zenoh-c"
 # zenoh_c.patch makes mod.rs include a file next to it, but cargo only has the
 # copy that build.rs writes to OUT_DIR.
@@ -61,4 +63,16 @@ for triple in "${triples[@]}"; do
     exit 1
   fi
   cp "${generated[0]}" "${out_dir}/opaque_types_${triple}.rs"
+  # build.rs also writes the generated C headers into the source tree.
+  cp "${work_dir}/zenoh-c/include/zenoh_configure.h" "${out_dir}/zenoh_configure_${triple}.h"
+  cp "${work_dir}/zenoh-c/include/zenoh_opaque.h" "${out_dir}/zenoh_opaque_${triple}.h"
+
+  # The other headers are used as committed upstream, so they must match what
+  # build.rs generates with these features.
+  for header in "${external_dir}"/+ros2_repositories+zenoh_c/include/*.h; do
+    if ! cmp -s "${header}" "${work_dir}/zenoh-c/include/$(basename "${header}")"; then
+      echo "build.rs output for $(basename "${header}") differs from upstream for ${triple}" >&2
+      exit 1
+    fi
+  done
 done

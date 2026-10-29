@@ -23,17 +23,30 @@ ZENOHC_FEATURES = [
     "unstable",
 ]
 
-# Upstream build.rs generates this by compiling build-resources/opaque-types,
-# which Bazel cannot do, so a checked-in copy is used per target triple.
-genrule(
-    name = "opaque_types_rs",
-    srcs = select({
-        "@rules_rs//rs/platforms/config:aarch64-unknown-linux-gnu": ["@hermetic_ros//ros2/zenoh_c:opaque_types_aarch64-unknown-linux-gnu.rs"],
-        "@rules_rs//rs/platforms/config:x86_64-unknown-linux-gnu": ["@hermetic_ros//ros2/zenoh_c:opaque_types_x86_64-unknown-linux-gnu.rs"],
-    }),
-    outs = ["src/opaque_types/opaque_types.rs"],
-    cmd = "cp $< $@",
-)
+TARGET_TRIPLES = [
+    "aarch64-unknown-linux-gnu",
+    "x86_64-unknown-linux-gnu",
+]
+
+# Upstream build.rs generates these by compiling build-resources/opaque-types,
+# which Bazel cannot do, so checked-in copies are used per target triple. See
+# //ros2/zenoh_c:generate_opaque_types.sh.
+[
+    genrule(
+        name = name,
+        srcs = select({
+            "@rules_rs//rs/platforms/config:" + triple: ["@hermetic_ros//ros2/zenoh_c:" + src.format(triple)]
+            for triple in TARGET_TRIPLES
+        }),
+        outs = [out],
+        cmd = "cp $< $@",
+    )
+    for name, src, out in [
+        ("opaque_types_rs", "opaque_types_{}.rs", "src/opaque_types/opaque_types.rs"),
+        ("zenoh_configure_h", "zenoh_configure_{}.h", "include/zenoh_configure.h"),
+        ("zenoh_opaque_h", "zenoh_opaque_{}.h", "include/zenoh_opaque.h"),
+    ]
+]
 
 rust_shared_library(
     name = "zenohc_rs",
@@ -48,7 +61,10 @@ rust_shared_library(
 
 cc_library(
     name = "zenohc",
-    hdrs = glob(["include/*.h"]),
+    hdrs = glob(["include/*.h"]) + [
+        ":zenoh_configure_h",
+        ":zenoh_opaque_h",
+    ],
     includes = ["include"],
     deps = [":zenohc_rs"],
     visibility = ["//visibility:public"],
