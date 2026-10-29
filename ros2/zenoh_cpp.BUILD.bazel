@@ -1,0 +1,20 @@
+load("@rules_cc//cc:defs.bzl", "cc_library")
+load("@rules_cc//cc:defs.bzl", "cc_binary")
+
+cc_library(
+    name = "zenoh_cpp",
+    hdrs = glob(["include/**/*.hxx"]),
+    includes = ["include"],
+    defines = ["ZENOHCXX_ZENOHC"],
+    deps = [
+        "@zenoh_c//:zenohc",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+cc_binary(
+    name = "examples_simple_universal",
+    srcs = ["examples/simple/universal/z_simple.cxx"],
+    deps = [":zenoh_cpp"],
+
+)

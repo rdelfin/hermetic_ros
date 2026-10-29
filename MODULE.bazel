@@ -68,6 +68,7 @@ use_repo(
     "rosidl_dynamic_typesupport",
     "rosidl_typesupport_fastrtps",
     "zenoh_c",
+    "zenoh_cpp",
 )
 
 toolchains = use_extension("@rules_rs//rs/toolchains:module_extension.bzl", "toolchains")

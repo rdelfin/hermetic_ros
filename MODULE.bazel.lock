@@ -368,7 +368,7 @@
   "moduleExtensions": {
     "//ros2:ros2_repositories.bzl%ros2_repositories": {
       "general": {
-        "bzlTransitiveDigest": "zn3R7DBqXty4ceE8Hnhxru5QIG5Xm0jH72zY7RpEZQw=",
+        "bzlTransitiveDigest": "awoTk7jtej+cgbJnGKzJph2n2YzAloMJoV97avl1cB0=",
         "usagesDigest": "r/8XmpJ71yJMa0Cq2HhS4mqf45QhuoGsoLisWjf2O8c=",
         "recordedInputs": [
           "REPO_MAPPING:,bazel_tools bazel_tools"
@@ -450,6 +450,15 @@
               "strip_prefix": "zenoh-c-05bd370343b5161ca9269649b9a914c9c2dc4170",
               "url": "https://github.com/eclipse-zenoh/zenoh-c/archive/05bd370343b5161ca9269649b9a914c9c2dc4170.tar.gz",
               "integrity": "sha256-noz6bJNtGHhEIcGqq29D6hgGsV7EG5HESI44CtVddXI="
+            }
+          },
+          "zenoh_cpp": {
+            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_archive",
+            "attributes": {
+              "build_file": "@@//ros2:zenoh_cpp.BUILD.bazel",
+              "strip_prefix": "zenoh-cpp-481b71bf974f684ea75afb4243b0313646d545f9",
+              "url": "https://github.com/eclipse-zenoh/zenoh-cpp/archive/481b71bf974f684ea75afb4243b0313646d545f9.tar.gz",
+              "integrity": "sha256-GB6gtqpZkvO5Lu7bruDZ5c1bUj8k2xqG66VnXgbq3lA="
             }
           }
         }
