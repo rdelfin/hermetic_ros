@@ -368,7 +368,7 @@
   "moduleExtensions": {
     "//ros2:ros2_repositories.bzl%ros2_repositories": {
       "general": {
-        "bzlTransitiveDigest": "QJRJmt91gtN2BEfAU9etBqPkZUibltFHHa0c6OjddRw=",
+        "bzlTransitiveDigest": "zn3R7DBqXty4ceE8Hnhxru5QIG5Xm0jH72zY7RpEZQw=",
         "usagesDigest": "r/8XmpJ71yJMa0Cq2HhS4mqf45QhuoGsoLisWjf2O8c=",
         "recordedInputs": [
           "REPO_MAPPING:,bazel_tools bazel_tools"
@@ -448,7 +448,8 @@
                 "-p1"
               ],
               "strip_prefix": "zenoh-c-05bd370343b5161ca9269649b9a914c9c2dc4170",
-              "url": "https://github.com/eclipse-zenoh/zenoh-c/archive/05bd370343b5161ca9269649b9a914c9c2dc4170.tar.gz"
+              "url": "https://github.com/eclipse-zenoh/zenoh-c/archive/05bd370343b5161ca9269649b9a914c9c2dc4170.tar.gz",
+              "integrity": "sha256-noz6bJNtGHhEIcGqq29D6hgGsV7EG5HESI44CtVddXI="
             }
           }
         }

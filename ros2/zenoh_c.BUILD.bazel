@@ -1,5 +1,6 @@
 load("@rules_rs//rs:rust_shared_library.bzl", "rust_shared_library")
 load("@zenoh_c_crates//:defs.bzl", "all_crate_deps")
+load("@rules_cc//cc:defs.bzl", "cc_library")
 
 exports_files(["Cargo.toml", "Cargo.lock"])
 
@@ -35,7 +36,7 @@ genrule(
 )
 
 rust_shared_library(
-    name = "zenohc",
+    name = "zenohc_rs",
     srcs = glob(["src/**/*.rs"]) + [":opaque_types_rs"],
     crate_features = ZENOHC_FEATURES,
     crate_root = "src/lib.rs",
@@ -43,4 +44,12 @@ rust_shared_library(
     rustc_flags = ["-Clink-arg=-Wl,-soname,libzenohc.so"],
     visibility = ["//visibility:public"],
     deps = all_crate_deps(normal = True),
+)
+
+cc_library(
+    name = "zenohc",
+    hdrs = glob(["include/*.h"]),
+    includes = ["include"],
+    deps = [":zenohc_rs"],
+    visibility = ["//visibility:public"],
 )
