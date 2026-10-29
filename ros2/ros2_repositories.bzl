@@ -59,4 +59,13 @@ def _ros2_repositories_impl(_module_ctx):
         integrity = "sha256-s7pfXqiwIUlZtWeSs/qjnXAYsPPMpqi3WTdTZ0sEEqs=",
     )
 
+    http_archive(
+        name = "zenoh_c",
+        build_file = "//ros2:zenoh_c.BUILD.bazel",
+        patches = ["//ros2/zenoh_c:zenoh_c.patch"],
+        patch_args = ["-p1"],
+        strip_prefix = "zenoh-c-05bd370343b5161ca9269649b9a914c9c2dc4170",
+        url = "https://github.com/eclipse-zenoh/zenoh-c/archive/05bd370343b5161ca9269649b9a914c9c2dc4170.tar.gz",
+    )
+
 ros2_repositories = module_extension(implementation = _ros2_repositories_impl)

@@ -1,0 +1,19 @@
+diff -ru a/Cargo.toml b/Cargo.toml
+--- a/Cargo.toml
++++ b/Cargo.toml
+@@ -59,6 +59,9 @@
+     "transport_udp",
+     "transport_unixsock-stream",
+     "transport_ws",
++    "shared-memory",
++    "unstable",
++    "transport_serial",
+ ]
+ 
+ [badges]
+diff -ru a/src/opaque_types/mod.rs b/src/opaque_types/mod.rs
+--- a/src/opaque_types/mod.rs
++++ b/src/opaque_types/mod.rs
+@@ -1 +1 @@
+-include!(concat!(env!("OUT_DIR"), "/opaque_types.rs"));
++include!("opaque_types.rs");

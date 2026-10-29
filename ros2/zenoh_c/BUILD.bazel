@@ -1,0 +1,9 @@
+exports_files(
+    [
+        "opaque_types_aarch64-unknown-linux-gnu.rs",
+        "opaque_types_x86_64-unknown-linux-gnu.rs",
+        "zenoh_c.patch",
+        "generate_opaque_types.sh",
+    ],
+    visibility = ["//visibility:public"],
+)

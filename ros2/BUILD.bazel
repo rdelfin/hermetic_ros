@@ -7,4 +7,5 @@ exports_files([
     "rosidl.BUILD.bazel",
     "rosidl_dynamic_typesupport.BUILD.bazel",
     "rosidl_typesupport_fastrtps.BUILD.bazel",
+    "zenoh_c.BUILD.bazel",
 ])

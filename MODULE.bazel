@@ -3,6 +3,7 @@ module(
     version = "1.0",
 )
 
+bazel_dep(name = "rules_rs", version = "0.1.3")
 bazel_dep(name = "llvm", version = "0.8.24")
 bazel_dep(name = "platforms", version = "1.1.0")
 bazel_dep(name = "rules_cc", version = "0.2.26")
@@ -16,7 +17,26 @@ bazel_dep(name = "fastcdr", version = "2.3.5.bcr.0")
 
 bazel_dep(name = "buildifier_prebuilt", version = "10.1.0", dev_dependency = True)
 
-register_toolchains("@llvm//toolchain:all")
+toolchain = use_extension("@llvm//extensions:toolchain.bzl", "toolchain")
+toolchain.exec(
+    arch = "x86_64",
+    os = "linux",
+)
+toolchain.exec(
+    arch = "aarch64",
+    os = "linux",
+)
+toolchain.target(
+    arch = "x86_64",
+    os = "linux",
+)
+toolchain.target(
+    arch = "aarch64",
+    os = "linux",
+)
+use_repo(toolchain, "llvm_toolchains")
+
+register_toolchains("@llvm_toolchains//:all")
 
 interpreters = use_extension("@aspect_rules_py//py:extensions.bzl", "python_interpreters")
 interpreters.toolchain(python_version = "3.12")
@@ -47,4 +67,30 @@ use_repo(
     "rosidl",
     "rosidl_dynamic_typesupport",
     "rosidl_typesupport_fastrtps",
+    "zenoh_c",
 )
+
+toolchains = use_extension("@rules_rs//rs/toolchains:module_extension.bzl", "toolchains")
+toolchains.toolchain(
+    edition = "2024",
+    version = "1.99.1",
+)
+use_repo(toolchains, "default_rust_toolchains")
+
+# This extension is optional but can help keep existing `@rules_rust` references working.
+rules_rust = use_extension("@rules_rs//rs:rules_rust.bzl", "rules_rust")
+use_repo(rules_rust, "rules_rust")
+
+register_toolchains("@default_rust_toolchains//...")
+
+zenoh_c_crate = use_extension("@rules_rs//rs:extensions.bzl", "crate")
+zenoh_c_crate.from_cargo(
+    name = "zenoh_c_crates",
+    cargo_lock = "@zenoh_c//:Cargo.lock",
+    cargo_toml = "@zenoh_c//:Cargo.toml",
+    platform_triples = [
+        "aarch64-unknown-linux-gnu",
+        "x86_64-unknown-linux-gnu",
+    ],
+)
+use_repo(zenoh_c_crate, "zenoh_c_crates")
