@@ -1,3 +1,4 @@
+load("@bazel_lib//lib:copy_file.bzl", "copy_file")
 load("@rules_rs//rs:rust_shared_library.bzl", "rust_shared_library")
 load("@zenoh_c_crates//:defs.bzl", "all_crate_deps")
 load("@rules_cc//cc:defs.bzl", "cc_library")
@@ -32,14 +33,13 @@ TARGET_TRIPLES = [
 # which Bazel cannot do, so checked-in copies are used per target triple. See
 # //ros2/zenoh_c:generate_opaque_types.sh.
 [
-    genrule(
+    copy_file(
         name = name,
-        srcs = select({
-            "@rules_rs//rs/platforms/config:" + triple: ["@hermetic_ros//ros2/zenoh_c:" + src.format(triple)]
+        src = select({
+            "@rules_rs//rs/platforms/config:" + triple: "@hermetic_ros//ros2/zenoh_c:" + src.format(triple)
             for triple in TARGET_TRIPLES
         }),
-        outs = [out],
-        cmd = "cp $< $@",
+        out = out,
     )
     for name, src, out in [
         ("opaque_types_rs", "opaque_types_{}.rs", "src/opaque_types/opaque_types.rs"),
