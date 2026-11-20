@@ -4,6 +4,7 @@ exports_files([
     "MODULE.bazel",
     "MODULE.bazel.lock",
     ".pre-commit-config.yaml",
+    ".bazelrc",
 ])
 
 alias(

@@ -15,4 +15,6 @@ common --experimental_profile_include_target_label
 common --experimental_profile_include_primary_output
 build --workspace_status_command=$(pwd)/tools/bazel/workspace_status.sh
 
+build --execution_log_compact_file=execution_log.binpb.zst
+
 try-import %workspace%/user.bazelrc
