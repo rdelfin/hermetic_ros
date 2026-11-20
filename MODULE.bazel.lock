@@ -376,7 +376,7 @@
   "moduleExtensions": {
     "//ros2:ros2_repositories.bzl%ros2_repositories": {
       "general": {
-        "bzlTransitiveDigest": "FCwTLEi10wg+SJYhKwTsT30i1xuoMC1t6HDiQkDwr4o=",
+        "bzlTransitiveDigest": "kFCJia1DQR3Rw3aOJOwcBNMxHIOb39Jvl5QJwiopzII=",
         "usagesDigest": "r/8XmpJ71yJMa0Cq2HhS4mqf45QhuoGsoLisWjf2O8c=",
         "recordedInputs": [
           "REPO_MAPPING:,bazel_tools bazel_tools"
@@ -476,6 +476,22 @@
               "strip_prefix": "ament_index-fec7e400bb2a50f32e1683482bf93da0b480839d",
               "url": "https://github.com/ament/ament_index/archive/fec7e400bb2a50f32e1683482bf93da0b480839d.tar.gz",
               "integrity": "sha256-KScGc9tQ8IW96uFFsM9bzDZfa9fvZ7QCl9vDDWw1gXU="
+            }
+          },
+          "class_loader": {
+            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_archive",
+            "attributes": {
+              "build_file": "@@//ros2:class_loader.BUILD.bazel",
+              "strip_prefix": "class_loader-86d1053cbdfdb80d3f4fd631ea1e4b148ce25c41",
+              "url": "https://github.com/ros/class_loader/archive/86d1053cbdfdb80d3f4fd631ea1e4b148ce25c41.tar.gz"
+            }
+          },
+          "pluginlib": {
+            "repoRuleId": "@@bazel_tools//tools/build_defs/repo:http.bzl%http_archive",
+            "attributes": {
+              "build_file": "@@//ros2:pluginlib.BUILD.bazel",
+              "strip_prefix": "pluginlib-3f1889cd34a2c989cbcae141cc9e6b24471c2e37",
+              "url": "https://github.com/ros/pluginlib/archive/3f1889cd34a2c989cbcae141cc9e6b24471c2e37.tar.gz"
             }
           }
         }

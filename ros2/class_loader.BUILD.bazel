@@ -1,0 +1,150 @@
+load("@rules_cc//cc:cc_library.bzl", "cc_library")
+load("@rules_cc//cc:cc_shared_library.bzl", "cc_shared_library")
+load("@rules_cc//cc:cc_test.bzl", "cc_test")
+
+cc_library(
+    name = "class_loader",
+    cxxopts = ["--std=c++17"],
+    visibility = ["//visibility:public"],
+    srcs = glob(["src/**/*.cpp"]),
+    hdrs = glob(["include/**/*.hpp"]),
+    includes = ["include"],
+    deps = [
+        "@rcpputils",
+        "@console_bridge",
+    ],
+)
+
+# Tests and plugins must share one copy of the class_loader plugin registry.
+cc_shared_library(
+    name = "class_loader_shared",
+    shared_lib_name = "libclass_loader.so",
+    deps = [":class_loader"],
+)
+
+cc_library(
+    name = "fviz",
+    srcs = ["test/fviz_case_study/fviz.cpp"],
+    hdrs = ["test/fviz_case_study/fviz.hpp"],
+    cxxopts = ["--std=c++17"],
+)
+
+cc_shared_library(
+    name = "class_loader_Test_Fviz",
+    shared_lib_name = "libclass_loader_Test_Fviz.so",
+    deps = [":fviz"],
+)
+
+# Plugin name -> (sources, deps, dynamic deps). Tests load each plugin with
+# dlopen() by the file name "lib<name>.so".
+_PLUGINS = {
+    "class_loader_TestPlugins1": (["test/plugins1.cpp", "test/base.hpp"], [], []),
+    "class_loader_TestPlugins2": (["test/plugins2.cpp", "test/base.hpp"], [], []),
+    "class_loader_TestPlugins3": (["test/plugins3.cpp", "test/base.hpp"], [], []),
+    "class_loader_TestGlobalPlugins": (["test/global_plugins.cpp", "test/base.hpp"], [], []),
+    "class_loader_Test_FvizDefaultPlugin": (
+        [
+            "test/fviz_case_study/fviz_default_plugin.cpp",
+            "test/fviz_case_study/fviz_plugin_base.hpp",
+        ],
+        [":fviz"],
+        [":class_loader_Test_Fviz"],
+    ),
+}
+
+[
+    cc_library(
+        name = name + "_lib",
+        srcs = srcs,
+        cxxopts = ["--std=c++17"],
+        deps = [":class_loader"] + deps,
+        alwayslink = True,
+    )
+    for name, (srcs, deps, _) in _PLUGINS.items()
+]
+
+[
+    cc_shared_library(
+        name = name,
+        shared_lib_name = "lib" + name + ".so",
+        dynamic_deps = [":class_loader_shared"] + dynamic_deps,
+        deps = [":" + name + "_lib"],
+    )
+    for name, (_, _, dynamic_deps) in _PLUGINS.items()
+]
+
+# dlopen() searches LD_LIBRARY_PATH. Tests run in runfiles/_main, and this
+# repository's files are at "../<repository name>".
+_PLUGIN_ENV = {"LD_LIBRARY_PATH": "../" + repository_name().lstrip("@")}
+
+# libc++ compares type_info by address in dynamic_cast. Plugins must bind to
+# the test's copy of the class_loader template type_info, so the test exports
+# its symbols.
+_PLUGIN_HOST_LINKOPTS = ["-rdynamic"]
+
+cc_test(
+    name = "class_loader_utest",
+    size = "small",
+    srcs = [
+        "test/base.hpp",
+        "test/utest.cpp",
+    ],
+    cxxopts = ["--std=c++17"],
+    data = [
+        ":class_loader_TestGlobalPlugins",
+        ":class_loader_TestPlugins1",
+        ":class_loader_TestPlugins2",
+        ":class_loader_TestPlugins3",
+    ],
+    dynamic_deps = [":class_loader_shared"],
+    env = _PLUGIN_ENV,
+    linkopts = _PLUGIN_HOST_LINKOPTS,
+    deps = [
+        ":class_loader",
+        "@googletest//:gtest",
+    ],
+)
+
+cc_test(
+    name = "class_loader_unique_ptr_test",
+    size = "small",
+    srcs = [
+        "test/base.hpp",
+        "test/unique_ptr_test.cpp",
+    ],
+    cxxopts = ["--std=c++17"],
+    data = [
+        ":class_loader_TestPlugins1",
+        ":class_loader_TestPlugins2",
+        ":class_loader_TestPlugins3",
+    ],
+    dynamic_deps = [":class_loader_shared"],
+    env = _PLUGIN_ENV,
+    linkopts = _PLUGIN_HOST_LINKOPTS,
+    deps = [
+        ":class_loader",
+        "@googletest//:gtest",
+    ],
+)
+
+cc_test(
+    name = "class_loader_fviz_test",
+    size = "small",
+    srcs = [
+        "test/fviz_case_study/fviz_plugin_base.hpp",
+        "test/fviz_case_study/fviz_test.cpp",
+    ],
+    cxxopts = ["--std=c++17"],
+    data = [":class_loader_Test_FvizDefaultPlugin"],
+    dynamic_deps = [
+        ":class_loader_Test_Fviz",
+        ":class_loader_shared",
+    ],
+    env = _PLUGIN_ENV,
+    linkopts = _PLUGIN_HOST_LINKOPTS,
+    deps = [
+        ":class_loader",
+        ":fviz",
+        "@googletest//:gtest_main",
+    ],
+)

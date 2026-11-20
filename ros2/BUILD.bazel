@@ -1,5 +1,7 @@
 exports_files([
     "ament_index.BUILD.bazel",
+    "class_loader.BUILD.bazel",
+    "pluginlib.BUILD.bazel",
     "rcpputils.BUILD.bazel",
     "rcutils.BUILD.bazel",
     "rmw.BUILD.bazel",

@@ -65,6 +65,8 @@ ros2_repositories = use_extension("//ros2:ros2_repositories.bzl", "ros2_reposito
 use_repo(
     ros2_repositories,
     "ament_index",
+    "class_loader",
+    "pluginlib",
     "rcpputils",
     "rcutils",
     "rmw",

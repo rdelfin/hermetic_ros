@@ -85,4 +85,18 @@ def _ros2_repositories_impl(_module_ctx):
         integrity = "sha256-KScGc9tQ8IW96uFFsM9bzDZfa9fvZ7QCl9vDDWw1gXU=",
     )
 
+    http_archive(
+        name = "class_loader",
+        build_file = "//ros2:class_loader.BUILD.bazel",
+        strip_prefix = "class_loader-86d1053cbdfdb80d3f4fd631ea1e4b148ce25c41",
+        url = "https://github.com/ros/class_loader/archive/86d1053cbdfdb80d3f4fd631ea1e4b148ce25c41.tar.gz",
+    )
+
+    http_archive(
+        name = "pluginlib",
+        build_file = "//ros2:pluginlib.BUILD.bazel",
+        strip_prefix = "pluginlib-3f1889cd34a2c989cbcae141cc9e6b24471c2e37",
+        url = "https://github.com/ros/pluginlib/archive/3f1889cd34a2c989cbcae141cc9e6b24471c2e37.tar.gz",
+    )
+
 ros2_repositories = module_extension(implementation = _ros2_repositories_impl)
