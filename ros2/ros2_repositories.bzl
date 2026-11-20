@@ -77,4 +77,12 @@ def _ros2_repositories_impl(_module_ctx):
         integrity = "sha256-GB6gtqpZkvO5Lu7bruDZ5c1bUj8k2xqG66VnXgbq3lA=",
     )
 
+    http_archive(
+        name = "ament_index",
+        build_file = "//ros2:ament_index.BUILD.bazel",
+        strip_prefix = "ament_index-fec7e400bb2a50f32e1683482bf93da0b480839d",
+        url = "https://github.com/ament/ament_index/archive/fec7e400bb2a50f32e1683482bf93da0b480839d.tar.gz",
+        integrity = "sha256-KScGc9tQ8IW96uFFsM9bzDZfa9fvZ7QCl9vDDWw1gXU=",
+    )
+
 ros2_repositories = module_extension(implementation = _ros2_repositories_impl)

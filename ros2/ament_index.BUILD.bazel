@@ -1,0 +1,26 @@
+load("@rules_cc//cc:cc_library.bzl", "cc_library")
+load("@rules_cc//cc:cc_test.bzl", "cc_test")
+
+cc_library(
+    name = "ament_index_cpp",
+    cxxopts = ["--std=c++17"],
+    visibility = ["//visibility:public"],
+    srcs = glob(["ament_index_cpp/src/**/*.cpp"]),
+    hdrs = glob(["ament_index_cpp/include/**/*.h", "ament_index_cpp/include/**/*.hpp"]),
+    includes = ["ament_index_cpp/include"],
+)
+
+cc_test(
+    name = "ament_index_cpp_utest",
+    # The test finds its data from __FILE__. Tests run in runfiles/_main, so
+    # external repositories are at "../".
+    copts = ["-fmacro-prefix-map=external/=../"],
+    cxxopts = ["--std=c++17"],
+    visibility = ["//visibility:public"],
+    srcs = glob(["ament_index_cpp/test/utest.cpp"]),
+    data = glob(["ament_index_cpp/test/prefix*/**/*"]),
+    deps = [
+        ":ament_index_cpp",
+        "@googletest//:gtest_main",
+    ],
+)
