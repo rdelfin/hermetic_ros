@@ -1,11 +1,28 @@
 load("@rules_cc//cc:cc_library.bzl", "cc_library")
 
+# Tracepoints are compiled out, so tracetools does not need LTTng.
+genrule(
+    name = "tracetools_config_h",
+    srcs = ["tracetools/include/tracetools/config.h.in"],
+    outs = ["tracetools/include/tracetools/config.h"],
+    cmd = "sed -e 's|#cmakedefine TRACETOOLS_DISABLED|/* #undef TRACETOOLS_DISABLED */|' " +
+          "-e 's|#cmakedefine TRACETOOLS_TRACEPOINTS_EXCLUDED|#define TRACETOOLS_TRACEPOINTS_EXCLUDED|' " +
+          "$< > $@",
+)
+
 cc_library(
     name = "tracetools",
     cxxopts = ["--std=c++17"],
     visibility = ["//visibility:public"],
-    srcs = glob(["tracetools/src/**/*.c"]),
-    hdrs = glob(["tracetools/include/**/*.h", "tracetools/include/**/*.hpp"]),
+    srcs = [
+        "tracetools/src/tracetools.c",
+        "tracetools/src/utils.cpp",
+    ],
+    hdrs = [
+        "tracetools/include/tracetools/tracetools.h",
+        "tracetools/include/tracetools/utils.hpp",
+        "tracetools/include/tracetools/visibility_control.h",
+        ":tracetools_config_h",
+    ],
     includes = ["tracetools/include"],
-    deps = ["@lttng-ust"],
 )

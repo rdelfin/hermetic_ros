@@ -5,6 +5,7 @@ exports_files([
     "rcpputils.BUILD.bazel",
     "rcutils.BUILD.bazel",
     "rmw.BUILD.bazel",
+    "rmw_zenoh.BUILD.bazel",
     "ros2_tracing.BUILD.bazel",
     "ros2_repositories.bzl",
     "rosidl.BUILD.bazel",

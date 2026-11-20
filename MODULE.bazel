@@ -70,6 +70,7 @@ use_repo(
     "rcpputils",
     "rcutils",
     "rmw",
+    "rmw_zenoh",
     "ros2_tracing",
     "rosidl",
     "rosidl_dynamic_typesupport",

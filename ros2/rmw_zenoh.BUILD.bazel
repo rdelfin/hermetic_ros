@@ -1,0 +1,86 @@
+load("@rules_cc//cc:cc_binary.bzl", "cc_binary")
+load("@rules_cc//cc:cc_library.bzl", "cc_library")
+load("@rules_cc//cc:cc_shared_library.bzl", "cc_shared_library")
+
+# Same flags as rmw's configure_rmw_library(). Only RMW_PUBLIC symbols are exported.
+_RMW_COPTS = [
+    "-fvisibility=hidden",
+    "-fvisibility-inlines-hidden",
+]
+
+filegroup(
+    name = "config",
+    srcs = glob(["rmw_zenoh_cpp/config/*.json5"]),
+    visibility = ["//visibility:public"],
+)
+
+# Lets sources include "detail/<file>.hpp".
+cc_library(
+    name = "rmw_zenoh_cpp_detail_hdrs",
+    hdrs = glob(["rmw_zenoh_cpp/src/detail/*.hpp"]),
+    strip_include_prefix = "rmw_zenoh_cpp/src",
+)
+
+cc_library(
+    name = "rmw_zenoh_cpp",
+    srcs = glob(
+        [
+            "rmw_zenoh_cpp/src/*.cpp",
+            "rmw_zenoh_cpp/src/detail/*.cpp",
+        ],
+        exclude = ["rmw_zenoh_cpp/src/rmw_test_fixture.cpp"],
+    ),
+    hdrs = glob(["rmw_zenoh_cpp/include/**/*.hpp"]),
+    copts = _RMW_COPTS,
+    cxxopts = ["--std=c++17"],
+    data = [":config"],
+    includes = ["rmw_zenoh_cpp/include"],
+    visibility = ["//visibility:public"],
+    deps = [
+        ":rmw_zenoh_cpp_detail_hdrs",
+        "@ament_index//:ament_index_cpp",
+        "@fastcdr",
+        "@rcpputils",
+        "@rcutils",
+        "@rmw",
+        "@ros2_tracing//:tracetools",
+        "@rosidl//:rosidl_buffer_backend",
+        "@rosidl//:rosidl_buffer_backend_registry",
+        "@rosidl//:rosidl_runtime_c",
+        "@rosidl_typesupport_fastrtps//:rosidl_typesupport_fastrtps_c",
+        "@rosidl_typesupport_fastrtps//:rosidl_typesupport_fastrtps_cpp",
+        "@zenoh_cpp",
+    ],
+    alwayslink = True,
+)
+
+# rmw_implementation loads this library with dlopen().
+cc_shared_library(
+    name = "rmw_zenoh_cpp_shared",
+    shared_lib_name = "librmw_zenoh_cpp.so",
+    visibility = ["//visibility:public"],
+    deps = [":rmw_zenoh_cpp"],
+)
+
+cc_binary(
+    name = "rmw_zenohd",
+    srcs = [
+        "rmw_zenoh_cpp/src/detail/liveliness_utils.cpp",
+        "rmw_zenoh_cpp/src/detail/logging.cpp",
+        "rmw_zenoh_cpp/src/detail/qos.cpp",
+        "rmw_zenoh_cpp/src/detail/simplified_xxhash3.cpp",
+        "rmw_zenoh_cpp/src/detail/zenoh_config.cpp",
+        "rmw_zenoh_cpp/src/zenohd/main.cpp",
+    ],
+    cxxopts = ["--std=c++17"],
+    data = [":config"],
+    visibility = ["//visibility:public"],
+    deps = [
+        ":rmw_zenoh_cpp_detail_hdrs",
+        "@ament_index//:ament_index_cpp",
+        "@rcpputils",
+        "@rcutils",
+        "@rmw",
+        "@zenoh_cpp",
+    ],
+)

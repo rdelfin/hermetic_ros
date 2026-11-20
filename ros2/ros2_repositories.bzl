@@ -101,4 +101,11 @@ def _ros2_repositories_impl(_module_ctx):
         integrity = "sha256-xoBSWepCIC3VXIdUhfBkYvkk34tQULKxswl3rArT6qQ=",
     )
 
+    http_archive(
+        name = "rmw_zenoh",
+        build_file = "//ros2:rmw_zenoh.BUILD.bazel",
+        strip_prefix = "rmw_zenoh-4e17ccfb9e114c87ac87b802e705b60e283b4115",
+        url = "https://github.com/ros2/rmw_zenoh/archive/4e17ccfb9e114c87ac87b802e705b60e283b4115.tar.gz",
+    )
+
 ros2_repositories = module_extension(implementation = _ros2_repositories_impl)

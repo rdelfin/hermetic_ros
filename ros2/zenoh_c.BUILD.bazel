@@ -54,7 +54,7 @@ rust_shared_library(
     crate_features = ZENOHC_FEATURES,
     crate_root = "src/lib.rs",
     edition = "2021",
-    rustc_flags = ["-Clink-arg=-Wl,-soname,libzenohc.so"],
+    rustc_flags = ["-Clink-arg=-Wl,-soname,libzenohc_rs.so"],
     visibility = ["//visibility:public"],
     deps = all_crate_deps(normal = True),
 )
